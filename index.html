@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CinePremier - Cartelera de Cine (CSS Tradicional)</title>
+  <title>Cine Perron - Cartelera de Cine (CSS Tradicional)</title>
   <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
@@ -78,14 +78,14 @@
     .logo-icono {
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, var(--color-primario), #f59e0b);
-      border-radius: 10px;
+      background: linear-gradient(135deg, var(--color-primario), #0065a0);
+      border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.2rem;
-      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+      box-shadow: 0 4px 15px rgba(247, 3, 56, 0.3);
     }
 
     .logo-texto {
@@ -181,6 +181,118 @@
       color: var(--texto-secundario);
       font-size: 0.95rem;
     }
+
+    /* Bienvenida y carrusel de ofertas */
+    .seccion-bienvenida {
+      padding: 2rem 1.5rem 0;
+      background: linear-gradient(180deg, rgba(225, 29, 72, 0.08), transparent);
+    }
+
+    .bienvenida-contenido {
+      max-width: 1200px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+
+    .bienvenida-titulo {
+      font-size: clamp(1.75rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .bienvenida-subtitulo {
+      margin-top: 0.4rem;
+      color: var(--texto-secundario);
+    }
+
+    .carrusel-ofertas {
+      max-width: 1200px;
+      height: 220px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--borde-color);
+      box-shadow: var(--sombra);
+    }
+
+    .ofertas-track {
+      height: 100%;
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .oferta-slide {
+      min-width: 100%;
+      height: 100%;
+      padding: 2.25rem 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .oferta-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(9, 13, 22, 0.95) 0%, rgba(9, 13, 22, 0.72) 55%, rgba(9, 13, 22, 0.15) 100%);
+    }
+
+    .oferta-slide { position: relative; }
+
+    .oferta-info { position: relative; z-index: 1; max-width: 600px; }
+
+    .oferta-etiqueta {
+      display: inline-block;
+      margin-bottom: 0.65rem;
+      color: #fecdd3;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .oferta-titulo { font-size: clamp(1.45rem, 3vw, 2.15rem); line-height: 1.05; }
+    .oferta-descripcion { margin-top: 0.55rem; color: #cbd5e1; }
+
+    .oferta-precio {
+      position: relative;
+      z-index: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 14px;
+      background: rgba(225, 29, 72, 0.92);
+      box-shadow: 0 10px 25px rgba(225, 29, 72, 0.25);
+    }
+
+    .oferta-precio span { display: block; font-size: 0.72rem; text-transform: uppercase; }
+    .oferta-precio strong { display: block; font-size: 1.55rem; }
+
+    .carrusel-controles {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .carrusel-punto {
+      width: 9px;
+      height: 9px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .carrusel-punto.activo { width: 24px; border-radius: 999px; background: white; }
 
     /* Botones de Filtro por Género */
     .filtros-genero {
@@ -579,6 +691,12 @@
         align-items: stretch;
       }
 
+      .carrusel-ofertas { height: 280px; }
+      .oferta-slide { padding: 1.5rem; align-items: flex-end; }
+      .oferta-slide::before { background: linear-gradient(0deg, rgba(9, 13, 22, 0.95) 0%, rgba(9, 13, 22, 0.55) 75%, rgba(9, 13, 22, 0.15) 100%); }
+      .oferta-precio { min-width: 120px; }
+      .bienvenida-subtitulo { font-size: 0.88rem; }
+
       .badge-cartelera {
         display: none;
       }
@@ -601,8 +719,8 @@
   <header class="encabezado">
     <div class="encabezado-contenido">
       <a href="#" class="logo-contenedor">
-        <div class="logo-icono">🍿</div>
-        <span class="logo-texto">Cinepolis</span>
+        <div class="logo-icono">⭐</div>
+        <span class="logo-texto">Cine Perron</span>
       </a>
 
       <!-- Buscador -->
@@ -622,6 +740,46 @@
       </div>
     </div>
   </header>
+
+  <!-- Bienvenida y promociones -->
+  <section class="seccion-bienvenida" aria-labelledby="tituloBienvenida">
+    <div class="bienvenida-contenido">
+      <h1 id="tituloBienvenida" class="bienvenida-titulo">¡Bienvenido a Cine Perron!</h1>
+      <p class="bienvenida-subtitulo">Tu próxima gran historia comienza aquí. Vive el cine con nuestras mejores promociones.</p>
+    </div>
+
+    <div class="carrusel-ofertas" aria-label="Ofertas de combos">
+      <div id="ofertasTrack" class="ofertas-track">
+        <article class="oferta-slide" style="background-image: url('https://images.unsplash.com/photo-1585647347384-2593bc35786b?w=1400&amp;auto=format&amp;fit=crop&amp;q=80');">
+          <div class="oferta-info">
+            <span class="oferta-etiqueta">Combo clásico</span>
+            <h2 class="oferta-titulo">Palomitas + Refresco</h2>
+            <p class="oferta-descripcion">El acompañante perfecto para disfrutar tu película favorita.</p>
+          </div>
+          <div class="oferta-precio"><span>Desde</span><strong>$89</strong></div>
+        </article>
+
+        <article class="oferta-slide" style="background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1400&amp;auto=format&amp;fit=crop&amp;q=80');">
+          <div class="oferta-info">
+            <span class="oferta-etiqueta">Noche de amigos</span>
+            <h2 class="oferta-titulo">2 Boletos + Snacks</h2>
+            <p class="oferta-descripcion">Comparte una gran función con quien más te gusta.</p>
+          </div>
+          <div class="oferta-precio"><span>Combo</span><strong>$249</strong></div>
+        </article>
+
+        <article class="oferta-slide" style="background-image: url('https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=1400&amp;auto=format&amp;fit=crop&amp;q=80');">
+          <div class="oferta-info">
+            <span class="oferta-etiqueta">Combo familiar</span>
+            <h2 class="oferta-titulo">4 Dulces + 4 Bebidas</h2>
+            <p class="oferta-descripcion">Diversión para toda la familia, con sabor y alegría.</p>
+          </div>
+          <div class="oferta-precio"><span>Solo hoy</span><strong>$199</strong></div>
+        </article>
+      </div>
+      <div id="carruselControles" class="carrusel-controles" aria-label="Seleccionar oferta"></div>
+    </div>
+  </section>
 
   <!-- Banner Héroe -->
   <section class="seccion-heroe">
@@ -899,6 +1057,38 @@
       alert(`¡Boletos reservados con éxito para la función de las ${horarioSeleccionado}!`);
       cerrarModal();
     });
+
+    // Carrusel automático de ofertas
+    const ofertasTrack = document.getElementById("ofertasTrack");
+    const carruselControles = document.getElementById("carruselControles");
+    const ofertasSlides = ofertasTrack.querySelectorAll(".oferta-slide");
+    let ofertaActual = 0;
+    let intervaloCarrusel;
+
+    function mostrarOferta(indice) {
+      ofertaActual = (indice + ofertasSlides.length) % ofertasSlides.length;
+      ofertasTrack.style.transform = `translateX(-${ofertaActual * 100}%)`;
+      carruselControles.querySelectorAll(".carrusel-punto").forEach((punto, i) => {
+        punto.classList.toggle("activo", i === ofertaActual);
+        punto.setAttribute("aria-current", i === ofertaActual ? "true" : "false");
+      });
+    }
+
+    ofertasSlides.forEach((_, indice) => {
+      const punto = document.createElement("button");
+      punto.type = "button";
+      punto.className = "carrusel-punto";
+      punto.setAttribute("aria-label", `Mostrar oferta ${indice + 1}`);
+      punto.addEventListener("click", () => {
+        mostrarOferta(indice);
+        clearInterval(intervaloCarrusel);
+        intervaloCarrusel = setInterval(() => mostrarOferta(ofertaActual + 1), 5000);
+      });
+      carruselControles.appendChild(punto);
+    });
+
+    mostrarOferta(0);
+    intervaloCarrusel = setInterval(() => mostrarOferta(ofertaActual + 1), 5000);
 
     // Inicializar app
     renderizarFiltros();
