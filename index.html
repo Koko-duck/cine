@@ -400,7 +400,7 @@
     }
 
     /* ==========================================================================
-       5. MODAL DE DETALLES Y BOLETOS
+       5. MODAL DE DETALLES Y BOLETOS (Actualizado Colaborador 4)
        ========================================================================== */
     .modal-overlay {
       position: fixed;
@@ -426,9 +426,10 @@
       background-color: var(--bg-tarjeta);
       border: 1px solid var(--borde-color);
       border-radius: 20px;
-      max-width: 500px;
+      max-width: 520px;
       width: 100%;
-      overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
       transform: scale(0.92);
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
@@ -440,7 +441,7 @@
 
     .modal-cabecera-poster {
       position: relative;
-      height: 200px;
+      height: 180px;
     }
 
     .modal-cabecera-poster img {
@@ -483,7 +484,7 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.1rem;
     }
 
     .modal-meta-bar {
@@ -494,37 +495,37 @@
     }
 
     .modal-sinopsis {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--texto-secundario);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    .modal-seccion-horarios h4 {
-      font-size: 0.8rem;
+    .modal-seccion h4 {
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: var(--texto-mutado);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
-    .modal-horarios-grid {
+    .modal-opciones-grid {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       flex-wrap: wrap;
     }
 
-    .btn-horario {
+    .btn-opcion {
       background-color: var(--bg-hover);
       border: 1px solid var(--borde-color);
       color: var(--texto-principal);
-      padding: 0.5rem 0.85rem;
+      padding: 0.4rem 0.75rem;
       border-radius: 8px;
-      font-family: monospace;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: var(--transicion);
     }
 
-    .btn-horario:hover, .btn-horario.seleccionado {
+    .btn-opcion:hover, .btn-opcion.seleccionado {
       background-color: var(--color-primario);
       border-color: var(--color-primario);
       color: white;
@@ -542,6 +543,7 @@
       cursor: pointer;
       transition: var(--transicion);
       box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+      margin-top: 0.5rem;
     }
 
     .btn-comprar:hover {
@@ -645,7 +647,7 @@
     </div>
   </main>
 
-  <!-- Modal de Selección de Boletos -->
+  <!-- Modal de Selección de Boletos (Colaborador 4) -->
   <div id="modalPelicula" class="modal-overlay">
     <div class="modal-contenedor">
       <div class="modal-cabecera-poster">
@@ -654,7 +656,7 @@
         <button id="btnCerrarModal" class="btn-cerrar-modal">&times;</button>
         <div class="modal-info-basica">
           <span id="modalGenero" class="pelicula-genero"></span>
-          <h2 id="modalTitulo" class="pelicula-titulo" style="font-size: 1.4rem;"></h2>
+          <h2 id="modalTitulo" class="pelicula-titulo" style="font-size: 1.3rem;"></h2>
         </div>
       </div>
       <div class="modal-cuerpo">
@@ -665,9 +667,28 @@
         </div>
         <p id="modalSinopsis" class="modal-sinopsis"></p>
         
-        <div class="modal-seccion-horarios">
-          <h4>Selecciona un Horario</h4>
-          <div id="modalHorarios" class="modal-horarios-grid"></div>
+        <!-- Selección de Fecha -->
+        <div class="modal-seccion">
+          <h4>1. Selecciona la Fecha</h4>
+          <div id="modalFechas" class="modal-opciones-grid"></div>
+        </div>
+
+        <!-- Selección de Formato -->
+        <div class="modal-seccion">
+          <h4>2. Formato de Película</h4>
+          <div id="modalFormatos" class="modal-opciones-grid"></div>
+        </div>
+
+        <!-- Selección de Idioma -->
+        <div class="modal-seccion">
+          <h4>3. Idioma</h4>
+          <div id="modalIdiomas" class="modal-opciones-grid"></div>
+        </div>
+
+        <!-- Selección de Horario -->
+        <div class="modal-seccion">
+          <h4>4. Horario</h4>
+          <div id="modalHorarios" class="modal-opciones-grid"></div>
         </div>
 
         <button id="btnConfirmar" class="btn-comprar">Comprar Boletos</button>
@@ -755,9 +776,19 @@
       }
     ];
 
+    // Opciones agregadas por el Colaborador 4
+    const fechasDisponibles = ["Hoy", "Mañana", "Sábado", "Domingo"];
+    const formatosDisponibles = ["2D", "3D", "IMAX", "4D"];
+    const idiomasDisponibles = ["Español (Dob)", "Subtitulado", "Idioma Original"];
+
     // Estado local
     let generoSeleccionado = "Todos";
     let textoBusqueda = "";
+    
+    // Variables de selección de compra (Colaborador 4)
+    let fechaSeleccionada = "";
+    let formatoSeleccionado = "";
+    let idiomaSeleccionado = "";
     let horarioSeleccionado = "";
 
     // Elementos DOM
@@ -775,6 +806,10 @@
     const modalRating = document.getElementById("modalRating");
     const modalClasificacion = document.getElementById("modalClasificacion");
     const modalSinopsis = document.getElementById("modalSinopsis");
+    
+    const modalFechas = document.getElementById("modalFechas");
+    const modalFormatos = document.getElementById("modalFormatos");
+    const modalIdiomas = document.getElementById("modalIdiomas");
     const modalHorarios = document.getElementById("modalHorarios");
     const btnConfirmar = document.getElementById("btnConfirmar");
 
@@ -834,7 +869,7 @@
           <div class="pelicula-contenido">
             <div class="pelicula-meta">
               <span>⏱️ ${pelicula.duracion}</span>
-              <span>Hoy</span>
+              <span>Disponibles</span>
             </div>
             <div class="horarios-lista">
               ${pelicula.horarios.map(h => `<span class="badge-horario">${h}</span>`).join('')}
@@ -847,12 +882,17 @@
       `).join('');
     }
 
-    // Abrir Modal
+    // Abrir Modal con opciones del Colaborador 4
     window.abrirModal = function(id) {
       const pelicula = peliculas.find(p => p.id === id);
       if (!pelicula) return;
 
+      // Resetear selecciones previas
+      fechaSeleccionada = "";
+      formatoSeleccionado = "";
+      idiomaSeleccionado = "";
       horarioSeleccionado = "";
+
       modalImagen.src = pelicula.poster;
       modalTitulo.textContent = pelicula.titulo;
       modalGenero.textContent = pelicula.genero;
@@ -861,17 +901,48 @@
       modalClasificacion.textContent = pelicula.clasificacion;
       modalSinopsis.textContent = pelicula.sinopsis;
 
+      // Renderizar opciones de Fecha
+      modalFechas.innerHTML = fechasDisponibles.map(f => `
+        <button class="btn-opcion" onclick="seleccionarOpcion(this, 'fecha', '${f}')">${f}</button>
+      `).join('');
+
+      // Renderizar opciones de Formato (2D, 3D, IMAX, 4D)
+      modalFormatos.innerHTML = formatosDisponibles.map(fmt => `
+        <button class="btn-opcion" onclick="seleccionarOpcion(this, 'formato', '${fmt}')">${fmt}</button>
+      `).join('');
+
+      // Renderizar opciones de Idioma
+      modalIdiomas.innerHTML = idiomasDisponibles.map(idioma => `
+        <button class="btn-opcion" onclick="seleccionarOpcion(this, 'idioma', '${idioma}')">${idioma}</button>
+      `).join('');
+
+      // Renderizar horarios
       modalHorarios.innerHTML = pelicula.horarios.map(h => `
-        <button class="btn-horario" onclick="seleccionarHorario(this, '${h}')">${h}</button>
+        <button class="btn-opcion" onclick="seleccionarOpcion(this, 'horario', '${h}')">${h}</button>
       `).join('');
 
       modalPelicula.classList.add("activo");
     };
 
-    // Seleccionar Horario en Modal
-    window.seleccionarHorario = function(btn, horario) {
-      horarioSeleccionado = horario;
-      document.querySelectorAll(".btn-horario").forEach(b => b.classList.remove("seleccionado"));
+    // Manejar selección de botones en el modal (Colaborador 4)
+    window.seleccionarOpcion = function(btn, tipo, valor) {
+      // Determinar contenedor padre según el tipo para limpiar selección previa en esa misma categoría
+      let contenedor;
+      if (tipo === 'fecha') {
+        fechaSeleccionada = valor;
+        contenedor = modalFechas;
+      } else if (tipo === 'formato') {
+        formatoSeleccionado = valor;
+        contenedor = modalFormatos;
+      } else if (tipo === 'idioma') {
+        idiomaSeleccionado = valor;
+        contenedor = modalIdiomas;
+      } else if (tipo === 'horario') {
+        horarioSeleccionado = valor;
+        contenedor = modalHorarios;
+      }
+
+      contenedor.querySelectorAll(".btn-opcion").forEach(b => b.classList.remove("seleccionado"));
       btn.classList.add("seleccionado");
     };
 
@@ -892,11 +963,11 @@
     });
 
     btnConfirmar.addEventListener("click", () => {
-      if (!horarioSeleccionado) {
-        alert("Por favor selecciona un horario para tu función.");
+      if (!fechaSeleccionada || !formatoSeleccionado || !idiomaSeleccionado || !horarioSeleccionado) {
+        alert("Por favor completa todas las selecciones: Fecha, Formato, Idioma y Horario.");
         return;
       }
-      alert(`¡Boletos reservados con éxito para la función de las ${horarioSeleccionado}!`);
+      alert(`¡Boletos reservados con éxito!\n\n📅 Fecha: ${fechaSeleccionada}\n🎬 Formato: ${formatoSeleccionado}\n🗣️ Idioma: ${idiomaSeleccionado}\n⏰ Horario: ${horarioSeleccionado}`);
       cerrarModal();
     });
 
